@@ -16,23 +16,37 @@ interface IUserDoc extends mongoose.Document {
   password: string;
 }
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    trim: true,
-    unique: true,
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      trim: true,
+      unique: true,
+      required: true,
+    },
+    password: {
+      type: String,
+      trim: true,
+      required: true,
+    },
   },
-  password: {
-    type: String,
-    trim: true,
-    required: true,
-  },
-});
+  {
+    versionKey: false,
+    toJSON: {
+      // define how this document will be transformed into json; doc - the user document, ret - what will be turned into json
+      transform(doc, ret) {
+        ret.id = ret._id;
+
+        delete ret._id;
+        delete ret.password;
+      },
+    },
+  }
+);
 
 // pre-save hook:
 userSchema.pre("save", async function (done) {
-  // this will trigger when user was created or password was changed
+  // this will trigger when user has updated his pass
   if (this.isModified("password")) {
     const hashedPass = await Password.toHash(this.get("password"));
     this.set("password", hashedPass);
