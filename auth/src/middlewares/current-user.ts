@@ -5,7 +5,7 @@ interface IUserPayload {
   id: string;
   email: string;
 }
-// awesome way to extend library type globally
+// awesome way to extend library interface globally
 declare global {
   namespace Express {
     interface Request {
