@@ -2,7 +2,7 @@ import request from "supertest";
 
 import { app } from "../../app";
 
-describe("Signin route", () => {
+describe("signin route", () => {
   beforeEach(async () => {
     await request(app)
       .post("/api/users/signup")

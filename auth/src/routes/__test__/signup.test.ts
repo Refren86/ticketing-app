@@ -2,7 +2,7 @@ import request from "supertest";
 
 import { app } from "../../app";
 
-describe("Signup route", () => {
+describe("signup route", () => {
   test("returns 201 on successful signup", async () => {
     return request(app)
       .post("/api/users/signup")
